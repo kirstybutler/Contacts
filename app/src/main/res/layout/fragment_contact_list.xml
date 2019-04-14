@@ -4,14 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ContactListActivity">
+    tools:context=".ContactListFragment">
 
-    <FrameLayout
-        android:id="@+id/single_frag_placeholder"
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/contact_list_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
-
-    </FrameLayout>
+        android:layout_height="match_parent" />
 </android.support.constraint.ConstraintLayout>

@@ -14,9 +14,11 @@ import java.util.List;
 public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.ViewHolder>{
 
     private List<Contact> contacts = new ArrayList<>();
+    private View.OnClickListener itemClickListener;
 
-    public ContactListAdapter() {
+    public ContactListAdapter(View.OnClickListener clickListener) {
         super();
+        this.itemClickListener = clickListener;
     }
 
     @NonNull
@@ -26,7 +28,12 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.adapter_contact_item, viewGroup, false);
         ViewHolder vh = new ViewHolder(v);
 
+        if (contacts.isEmpty()) {
+            System.out.print("NO DATA");
+        }
+
         return vh;
+
     }
 
     @Override
@@ -37,10 +44,8 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
 
     }
 
-    private List<Contact> data;
-
     public void updateData(List<Contact> newData) {
-                this.data = newData;
+                this.contacts = newData;
                 this.notifyDataSetChanged();
     }
 
@@ -69,6 +74,8 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
             photo.setImageResource(contact.getImageResource());
 
             itemView.setTag(position);
+
+            itemView.setOnClickListener(itemClickListener);
         }
     }
 }

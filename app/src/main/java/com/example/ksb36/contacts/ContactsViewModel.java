@@ -8,10 +8,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ContactsViewModel extends ViewModel {
+
+    private MutableLiveData<Integer> selectedContact = new MutableLiveData<Integer>();
+
+    public LiveData<Integer> getSelectedContact() {
+        return selectedContact;
+    }
+
+    public void setSelectedContact(int position) {
+        selectedContact.setValue(position);
+    }
+
     MutableLiveData<List<Contact>> contactList = new MutableLiveData<List<Contact>>();
     public LiveData<List<Contact>> getContactList() {
         return contactList;
     }
+
+
 
     public void loadContacts() {
         ArrayList<Contact> newData = new ArrayList<Contact>();
