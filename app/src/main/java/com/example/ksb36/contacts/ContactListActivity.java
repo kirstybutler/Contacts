@@ -3,24 +3,55 @@ package com.example.ksb36.contacts;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.transition.Slide;
+import android.view.Gravity;
 
-import java.util.List;
+import com.example.ksb36.contacts.ui.ContactListFragment;
+import com.example.ksb36.contacts.ui.ContactsViewModel;
+import com.example.ksb36.contacts.ui.DetailsFragment;
 
-public class ContactListActivity extends AppCompatActivity {
+public class ContactListActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
 
     private ContactsViewModel viewModel;
+    private Boolean hasTwoPanes;
+
+    @Override
+    public void onBackStackChanged() {
+        shouldDisplayHomeUp();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        getSupportFragmentManager().popBackStack();
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_list);
 
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if (findViewById(R.id.detail_frag_placeholder) == null) {
+            hasTwoPanes = false;
+        } else {
+            hasTwoPanes = true;
 
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            DetailsFragment detailsFragment = new DetailsFragment();
+            transaction.replace(R.id.detail_frag_placeholder, detailsFragment);
+            transaction.commit();
+
+        }
+
+        getSupportFragmentManager().addOnBackStackChangedListener(this);
+        shouldDisplayHomeUp();
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         ContactListFragment listFragment = new ContactListFragment();
         transaction.replace(R.id.single_frag_placeholder, listFragment);
         transaction.commit();
@@ -28,24 +59,43 @@ public class ContactListActivity extends AppCompatActivity {
         viewModel = ViewModelProviders.of(this).get(ContactsViewModel.class);
         viewModel.getSelectedContact().observe(this, selectedContactObserver);
 
-        viewModel.loadContacts();
+        //viewModel.loadContacts();
     }
 
     private void showDetailsFragment() {
+        Fragment previousFragment = getSupportFragmentManager().findFragmentById(R.id.single_frag_placeholder);
+        DetailsFragment detailsFragment = new DetailsFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
-        DetailsFragment detailsFragment = new DetailsFragment();
+        Slide exitAnim = new Slide();
+        exitAnim.setSlideEdge(Gravity.LEFT);
+        exitAnim.setDuration(250);
+        Slide enterAnim = new Slide();
+        enterAnim.setSlideEdge(Gravity.RIGHT);
+        enterAnim.setDuration(250);
+
+        previousFragment.setExitTransition(exitAnim);
+        previousFragment.setEnterTransition(enterAnim);
+
         transaction.replace(R.id.single_frag_placeholder, detailsFragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }
 
+    private void shouldDisplayHomeUp() {
+        boolean canGoBack = getSupportFragmentManager().getBackStackEntryCount() > 0;
+        getSupportActionBar().setDisplayHomeAsUpEnabled(canGoBack);
+    }
+
     private final Observer<Integer> selectedContactObserver = new Observer<Integer>() {
         @Override
         public void onChanged(@Nullable Integer integer) {
-            showDetailsFragment();
-            Toast.makeText(getApplicationContext(), "Clicked " + viewModel.getSelectedContact(),
-                    Toast.LENGTH_LONG).show();
+            if (!hasTwoPanes) {
+                showDetailsFragment();
+            }
+
+            //Toast.makeText(getApplicationContext(), "Clicked " + viewModel.getSelectedContact(),
+                    //Toast.LENGTH_LONG).show();
         }
     };
 }

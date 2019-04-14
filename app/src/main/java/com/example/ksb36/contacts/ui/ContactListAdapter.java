@@ -1,4 +1,4 @@
-package com.example.ksb36.contacts;
+package com.example.ksb36.contacts.ui;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.ksb36.contacts.model.Contact;
+import com.example.ksb36.contacts.R;
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +19,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
 
     private List<Contact> contacts = new ArrayList<>();
     private View.OnClickListener itemClickListener;
+    private Contact contact;
 
     public ContactListAdapter(View.OnClickListener clickListener) {
         super();
@@ -71,7 +76,13 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
         public void setData(Contact contact, int position) {
             fullName.setText(contact.getFirstName() + " " + contact.getLastName());
             phoneNumber.setText(contact.getPhoneNumber());
-            photo.setImageResource(contact.getImageResource());
+
+            Picasso.get()
+                    .load(contact.getImageURL())
+                    .resize(50,50)
+                    .centerCrop()
+                    .into(photo);
+            //photo.setImageResource(contact.getImageResource());
 
             itemView.setTag(position);
 

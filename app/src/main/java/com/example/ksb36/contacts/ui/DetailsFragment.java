@@ -1,4 +1,4 @@
-package com.example.ksb36.contacts;
+package com.example.ksb36.contacts.ui;
 
 
 import android.arch.lifecycle.Observer;
@@ -11,7 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.example.ksb36.contacts.model.Contact;
+import com.example.ksb36.contacts.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -56,7 +59,13 @@ public class DetailsFragment extends Fragment {
 
         contactName.setText(contact.getFirstName() + " " + contact.getLastName());
         contactPhone.setText(contact.getPhoneNumber());
-        contactImage.setImageResource(contact.getImageResource());
+
+        Picasso.get()
+                .load(contact.getImageURL())
+                .resize(50,50)
+                .centerCrop()
+                .into(contactImage);
+        //contactImage.setImageResource(contact.getImageResource());
     }
 
     private final Observer<Integer> selectedContactObserver = new Observer<Integer>() {
