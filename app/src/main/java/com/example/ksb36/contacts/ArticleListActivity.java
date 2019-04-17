@@ -1,5 +1,7 @@
 package com.example.ksb36.contacts;
 
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.support.annotation.NonNull;
@@ -17,12 +19,17 @@ import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.example.ksb36.contacts.ui.ContactListFragment;
 import com.example.ksb36.contacts.ui.ArticlesViewModel;
 import com.example.ksb36.contacts.ui.DetailsFragment;
 import com.example.ksb36.contacts.ui.FavFragment;
+import com.example.ksb36.contacts.ui.WebFragment;
 
 public class ArticleListActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener,
         NavigationView.OnNavigationItemSelectedListener {
@@ -30,6 +37,8 @@ public class ArticleListActivity extends AppCompatActivity implements FragmentMa
     private ArticlesViewModel viewModel;
     private Boolean hasTwoPanes;
     private DrawerLayout drawer;
+
+    private WebView webView;
 
     @Override
     public void onBackStackChanged() {
@@ -108,7 +117,9 @@ public class ArticleListActivity extends AppCompatActivity implements FragmentMa
                 Toast.makeText(this, "Share", Toast.LENGTH_LONG).show();
                 break;
             case R.id.nav_website:
-
+                getSupportFragmentManager().beginTransaction().replace(R.id.single_frag_placeholder,
+                        new WebFragment()).commit();
+                break;
         }
 
         drawer.closeDrawer(GravityCompat.START);
