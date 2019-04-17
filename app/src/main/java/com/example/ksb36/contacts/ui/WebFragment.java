@@ -10,12 +10,16 @@ import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.ksb36.contacts.R;
 
+import java.net.URL;
+
 public class WebFragment extends Fragment {
     private WebView webView;
+
 
     @Nullable
     @Override

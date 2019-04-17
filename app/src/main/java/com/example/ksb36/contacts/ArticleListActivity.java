@@ -25,6 +25,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import com.example.ksb36.contacts.ui.AboutFragment;
 import com.example.ksb36.contacts.ui.ContactListFragment;
 import com.example.ksb36.contacts.ui.ArticlesViewModel;
 import com.example.ksb36.contacts.ui.DetailsFragment;
@@ -37,8 +38,7 @@ public class ArticleListActivity extends AppCompatActivity implements FragmentMa
     private ArticlesViewModel viewModel;
     private Boolean hasTwoPanes;
     private DrawerLayout drawer;
-
-    private WebView webView;
+    public NavigationView navigationView;
 
     @Override
     public void onBackStackChanged() {
@@ -60,7 +60,7 @@ public class ArticleListActivity extends AppCompatActivity implements FragmentMa
         setSupportActionBar(toolbar);
 
         drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
 
@@ -104,6 +104,7 @@ public class ArticleListActivity extends AppCompatActivity implements FragmentMa
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
         switch (menuItem.getItemId()) {
             case R.id.nav_news:
                 getSupportFragmentManager().beginTransaction().replace(R.id.single_frag_placeholder,
@@ -120,9 +121,14 @@ public class ArticleListActivity extends AppCompatActivity implements FragmentMa
                 getSupportFragmentManager().beginTransaction().replace(R.id.single_frag_placeholder,
                         new WebFragment()).commit();
                 break;
+            case R.id.nav_about:
+                getSupportFragmentManager().beginTransaction().replace(R.id.single_frag_placeholder,
+                        new AboutFragment()).commit();
+                break;
         }
 
         drawer.closeDrawer(GravityCompat.START);
+        //navigationView.setCheckedItem(menuItem);
         return true;
     }
 
