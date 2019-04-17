@@ -1,6 +1,10 @@
 <resources>
-    <string name="app_name">Contacts</string>
+    <string name="app_name">EDA News Feed</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="news_feed">News Feed</string>
+    <string name="info">Info</string>
+    <string name="share">Share</string>
+    <string name="comm">Communicate</string>
 </resources>
