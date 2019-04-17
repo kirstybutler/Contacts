@@ -12,12 +12,12 @@ import android.transition.Slide;
 import android.view.Gravity;
 
 import com.example.ksb36.contacts.ui.ContactListFragment;
-import com.example.ksb36.contacts.ui.ContactsViewModel;
+import com.example.ksb36.contacts.ui.ArticlesViewModel;
 import com.example.ksb36.contacts.ui.DetailsFragment;
 
-public class ContactListActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
+public class ArticleListActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
 
-    private ContactsViewModel viewModel;
+    private ArticlesViewModel viewModel;
     private Boolean hasTwoPanes;
 
     @Override
@@ -56,10 +56,8 @@ public class ContactListActivity extends AppCompatActivity implements FragmentMa
         transaction.replace(R.id.single_frag_placeholder, listFragment);
         transaction.commit();
 
-        viewModel = ViewModelProviders.of(this).get(ContactsViewModel.class);
-        viewModel.getSelectedContact().observe(this, selectedContactObserver);
-
-        //viewModel.loadContacts();
+        viewModel = ViewModelProviders.of(this).get(ArticlesViewModel.class);
+        viewModel.getSelectedArticle().observe(this, selectedArticleObserver);
     }
 
     private void showDetailsFragment() {
@@ -87,15 +85,12 @@ public class ContactListActivity extends AppCompatActivity implements FragmentMa
         getSupportActionBar().setDisplayHomeAsUpEnabled(canGoBack);
     }
 
-    private final Observer<Integer> selectedContactObserver = new Observer<Integer>() {
+    private final Observer<Integer> selectedArticleObserver = new Observer<Integer>() {
         @Override
         public void onChanged(@Nullable Integer integer) {
             if (!hasTwoPanes) {
                 showDetailsFragment();
             }
-
-            //Toast.makeText(getApplicationContext(), "Clicked " + viewModel.getSelectedContact(),
-                    //Toast.LENGTH_LONG).show();
         }
     };
 }

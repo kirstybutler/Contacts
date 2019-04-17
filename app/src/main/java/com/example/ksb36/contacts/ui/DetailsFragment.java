@@ -12,8 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.ksb36.contacts.model.Contact;
+import com.example.ksb36.contacts.model.Article;
 import com.example.ksb36.contacts.R;
+import com.example.ksb36.contacts.model.ArticleList;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -21,17 +22,16 @@ import java.util.List;
 
 public class DetailsFragment extends Fragment {
 
-    private ContactsViewModel viewModel;
+    private ArticlesViewModel viewModel;
 
-    private ImageView contactImage;
-    private TextView contactName;
-    private TextView contactPhone;
 
+    private ImageView articleImage;
+    private TextView articleTitle;
+    private TextView articleAuthor;
 
     public DetailsFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,35 +40,37 @@ public class DetailsFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_details, container, false);
 
-        contactName = (TextView) view.findViewById(R.id.contact_name);
-        contactPhone = (TextView) view.findViewById(R.id.contact_phone);
-        contactImage = (ImageView) view.findViewById(R.id.contact_image);
+        articleTitle = (TextView) view.findViewById(R.id.contact_name);
+        articleAuthor = (TextView) view.findViewById(R.id.contact_phone);
+        articleImage = (ImageView) view.findViewById(R.id.contact_image);
 
-        viewModel = ViewModelProviders.of(getActivity()).get(ContactsViewModel.class);
-        viewModel.getSelectedContact().observe(this, selectedContactObserver);
+        viewModel = ViewModelProviders.of(getActivity()).get(ArticlesViewModel.class);
+        viewModel.getSelectedArticle().observe(this, selectedArticleObserver);
 
         return view;
     }
 
     public void updateView(int position) {
-        List<Contact> contacts = viewModel.getContactList().getValue();
-        if (contacts == null) {
+        List<Article> articlesList = viewModel.getArticleList().getValue();
+        if (articlesList == null) {
             return;
         }
-        Contact contact = contacts.get(position);
 
-        contactName.setText(contact.getFirstName() + " " + contact.getLastName());
-        contactPhone.setText(contact.getPhoneNumber());
+        Article article = articlesList.get(position);
+
+        articleTitle.setText(article.getTitle());
+        articleAuthor.setText(article.getAuthor());
 
         Picasso.get()
-                .load(contact.getImageURL())
+                .load(article.getImageURL())
                 .resize(50,50)
                 .centerCrop()
-                .into(contactImage);
+                .into(articleImage);
+
         //contactImage.setImageResource(contact.getImageResource());
     }
 
-    private final Observer<Integer> selectedContactObserver = new Observer<Integer>() {
+    private final Observer<Integer> selectedArticleObserver = new Observer<Integer>() {
         @Override
         public void onChanged(@Nullable Integer integer) {
             updateView(integer);

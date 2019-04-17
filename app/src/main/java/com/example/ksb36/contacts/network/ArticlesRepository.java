@@ -2,11 +2,9 @@ package com.example.ksb36.contacts.network;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.Observer;
-import android.support.annotation.Nullable;
 
-import com.example.ksb36.contacts.model.Contact;
-import com.example.ksb36.contacts.ui.ContactListFragment;
+import com.example.ksb36.contacts.model.Article;
+import com.example.ksb36.contacts.model.ArticleList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -18,24 +16,24 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ContactsRepository {
+public class ArticlesRepository {
     private Retrofit retrofit;
-    private ContactsService contactsService;
-    private ContactListFragment contactListFragment;
+    private ArticlesService articlesService;
+    private MutableLiveData<List<Article>> articleList;
 
-    private static final ContactsRepository ourInstance = new ContactsRepository();
+    private static final ArticlesRepository ourInstance = new ArticlesRepository();
 
     public enum NetworkStatus {
         IDLE, LOADING, SUCCESS, ERROR
     }
     public MutableLiveData<NetworkStatus> networkStatus = new MutableLiveData<>();
 
-    public static ContactsRepository getInstance() {
+    public static ArticlesRepository getInstance() {
 
         return ourInstance;
     }
 
-    private ContactsRepository() {
+    private ArticlesRepository() {
 
         networkStatus.setValue(NetworkStatus.IDLE);
 
@@ -45,40 +43,40 @@ public class ContactsRepository {
                 .create();
 
         retrofit = new Retrofit.Builder()
-                .baseUrl(ContactsService.BASE_URL)
+                .baseUrl(ArticlesService.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 
-        contactsService = retrofit.create(ContactsService.class);
+        articlesService = retrofit.create(ArticlesService.class);
     }
 
-    public LiveData<List<Contact>> getContactlist() {
-        final MutableLiveData<List<Contact>> data = new MutableLiveData<>();
-
-        Call<List<Contact>> call = contactsService.getAllContacts();
-
+    public LiveData<List<Article>> getArticlelist() {
+        articleList = new MutableLiveData<>();
+        //final LiveData<List<Article>> data = new MutableLiveData<>();
         networkStatus.setValue(NetworkStatus.LOADING);
 
-        call.enqueue(new Callback<List<Contact>>() {
+        Call<ArticleList> call = articlesService.getFirstArticles();
+        call.enqueue(new Callback<ArticleList>() {
             @Override
-            public void onResponse(Call<List<Contact>> call, Response<List<Contact>> response) {
-                data.setValue(response.body());
+            public void onResponse(Call<ArticleList> call, Response<ArticleList> response) {
+                //data.setValue(response.body().getArticles());
+                articleList.setValue(response.body().getArticles());
 
                 networkStatus.setValue(NetworkStatus.IDLE);
             }
 
             @Override
-            public void onFailure(Call<List<Contact>> call, Throwable t) {
+            public void onFailure(Call<ArticleList> call, Throwable t) {
                 networkStatus.setValue(NetworkStatus.IDLE);
+
+                t.printStackTrace();
             }
         });
 
-        return data;
+        return articleList;
     }
 
     public LiveData<NetworkStatus> getNetworkStatus() {
         return networkStatus;
     }
-
-
 }

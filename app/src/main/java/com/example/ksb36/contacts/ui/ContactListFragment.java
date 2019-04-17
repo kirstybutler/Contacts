@@ -1,7 +1,5 @@
 package com.example.ksb36.contacts.ui;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
@@ -15,9 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.example.ksb36.contacts.model.Contact;
+import com.example.ksb36.contacts.model.Article;
 import com.example.ksb36.contacts.R;
-import com.example.ksb36.contacts.network.ContactsRepository;
+import com.example.ksb36.contacts.model.ArticleList;
+import com.example.ksb36.contacts.network.ArticlesRepository;
 
 import java.util.List;
 
@@ -25,8 +24,8 @@ public class ContactListFragment extends Fragment {
 
     public RecyclerView contactListView;
     private LinearLayoutManager layoutManager;
-    private ContactListAdapter adapter;
-    private ContactsViewModel viewModel;
+    private ArticleListAdapter adapter;
+    private ArticlesViewModel viewModel;
     private ProgressBar progressBar;
 
     public ContactListFragment() {
@@ -56,14 +55,14 @@ public class ContactListFragment extends Fragment {
         DividerItemDecoration divider = new DividerItemDecoration(getActivity(), layoutManager.getOrientation());
         contactListView.addItemDecoration(divider);
 
-        adapter = new ContactListAdapter(listItemClickListener);
+        adapter = new ArticleListAdapter(listItemClickListener);
         contactListView.setAdapter(adapter);
 
-        viewModel = ViewModelProviders.of(getActivity()).get(ContactsViewModel.class);
-        viewModel.getContactList().observe(this, contactListObserver);
+        viewModel = ViewModelProviders.of(getActivity()).get(ArticlesViewModel.class);
+        viewModel.getArticleList().observe(this, articleListObserver);
         viewModel.getNetworkStatus().observe(this, networkStatusObserver);
 
-        List<Contact> data = viewModel.getContactList().getValue();
+        List<Article> data = viewModel.getArticleList().getValue();
         if (data != null) {
             adapter.updateData(data);
         }
@@ -71,9 +70,9 @@ public class ContactListFragment extends Fragment {
     }
 
 
-    private final Observer<List<Contact>> contactListObserver = new Observer<List<Contact>>() {
+    private final Observer<List<Article>> articleListObserver = new Observer<List<Article>>() {
         @Override
-        public void onChanged(@Nullable List<Contact> contacts) {
+        public void onChanged(@Nullable List<Article> contacts) {
             adapter.updateData(contacts);
         }
     };
@@ -82,18 +81,15 @@ public class ContactListFragment extends Fragment {
         @Override
         public void onClick(View v) {
             int position = (int) v.getTag();
-            List<Contact> list = viewModel.getContactList().getValue();
-            Contact contact = list.get(position);
 
-            viewModel.setSelectedContact(position);
-
+            viewModel.setSelectedArticle(position);
         }
     };
 
-    private final Observer<ContactsRepository.NetworkStatus> networkStatusObserver = new Observer<ContactsRepository.NetworkStatus>() {
+    private final Observer<ArticlesRepository.NetworkStatus> networkStatusObserver = new Observer<ArticlesRepository.NetworkStatus>() {
         @Override
-        public void onChanged(@Nullable ContactsRepository.NetworkStatus networkStatus) {
-            if (networkStatus == ContactsRepository.NetworkStatus.LOADING)
+        public void onChanged(@Nullable ArticlesRepository.NetworkStatus networkStatus) {
+            if (networkStatus == ArticlesRepository.NetworkStatus.LOADING)
                 progressBar.setVisibility(View.VISIBLE);
             else
                 progressBar.setVisibility(View.GONE);

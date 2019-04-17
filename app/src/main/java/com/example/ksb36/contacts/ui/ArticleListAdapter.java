@@ -8,20 +8,20 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.ksb36.contacts.model.Contact;
+import com.example.ksb36.contacts.model.Article;
 import com.example.ksb36.contacts.R;
+import com.example.ksb36.contacts.model.ArticleList;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.ViewHolder>{
+public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.ViewHolder>{
 
-    private List<Contact> contacts = new ArrayList<>();
+    private List<Article> articlesList = new ArrayList<>();
     private View.OnClickListener itemClickListener;
-    private Contact contact;
 
-    public ContactListAdapter(View.OnClickListener clickListener) {
+    public ArticleListAdapter(View.OnClickListener clickListener) {
         super();
         this.itemClickListener = clickListener;
     }
@@ -33,56 +33,51 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.adapter_contact_item, viewGroup, false);
         ViewHolder vh = new ViewHolder(v);
 
-        if (contacts.isEmpty()) {
-            System.out.print("NO DATA");
-        }
-
         return vh;
 
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        Contact contact = contacts.get(i);
+        Article article = articlesList.get(i);
 
-        viewHolder.setData(contact, i);
+        viewHolder.setData(article, i);
 
     }
 
-    public void updateData(List<Contact> newData) {
-                this.contacts = newData;
+    public void updateData(List<Article> newData) {
+                this.articlesList = newData;
                 this.notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return contacts.size();
+        return articlesList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView fullName;
-        private TextView phoneNumber;
+        private TextView title;
+        private TextView author;
         private ImageView photo;
 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            fullName = (TextView) itemView.findViewById(R.id.full_name);
-            phoneNumber = (TextView) itemView.findViewById(R.id.phone_number);
+            title = (TextView) itemView.findViewById(R.id.title);
+            author = (TextView) itemView.findViewById(R.id.author);
             photo = (ImageView) itemView.findViewById(R.id.photo);
         }
 
-        public void setData(Contact contact, int position) {
-            fullName.setText(contact.getFirstName() + " " + contact.getLastName());
-            phoneNumber.setText(contact.getPhoneNumber());
+        public void setData(Article article, int position) {
+            title.setText(article.getTitle());
+            author.setText(article.getAuthor());
 
             Picasso.get()
-                    .load(contact.getImageURL())
+                    .load(article.getImageURL())
                     .resize(50,50)
                     .centerCrop()
                     .into(photo);
-            //photo.setImageResource(contact.getImageResource());
 
             itemView.setTag(position);
 
