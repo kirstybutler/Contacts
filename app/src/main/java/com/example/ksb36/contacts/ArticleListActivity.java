@@ -1,9 +1,11 @@
 package com.example.ksb36.contacts;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -19,17 +21,16 @@ import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
 import android.view.Gravity;
 import android.view.MenuItem;
-import android.webkit.WebResourceError;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.example.ksb36.contacts.ui.AboutFragment;
 import com.example.ksb36.contacts.ui.ContactListFragment;
 import com.example.ksb36.contacts.ui.ArticlesViewModel;
 import com.example.ksb36.contacts.ui.DetailsFragment;
+import com.example.ksb36.contacts.ui.FacebookFragment;
 import com.example.ksb36.contacts.ui.FavFragment;
+import com.example.ksb36.contacts.ui.OpenFacebook;
+import com.example.ksb36.contacts.ui.TwitterFragment;
 import com.example.ksb36.contacts.ui.WebFragment;
 
 public class ArticleListActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener,
@@ -124,6 +125,14 @@ public class ArticleListActivity extends AppCompatActivity implements FragmentMa
             case R.id.nav_about:
                 getSupportFragmentManager().beginTransaction().replace(R.id.single_frag_placeholder,
                         new AboutFragment()).commit();
+                break;
+            case R.id.nav_fb:
+                getSupportFragmentManager().beginTransaction().replace(R.id.single_frag_placeholder,
+                        new FacebookFragment()).commit();
+                break;
+            case R.id.nav_twitter:
+                getSupportFragmentManager().beginTransaction().replace(R.id.single_frag_placeholder,
+                        new TwitterFragment()).commit();
                 break;
         }
 

@@ -1,4 +1,5 @@
 package com.example.ksb36.contacts.ui;
+
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -7,14 +8,13 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+
 import com.example.ksb36.contacts.R;
 
-public class WebFragment extends Fragment {
+public class TwitterFragment extends Fragment {
     private WebView webView;
     private ProgressBar progressBar;
 
@@ -25,12 +25,12 @@ public class WebFragment extends Fragment {
 
         progressBar = (ProgressBar) v.findViewById(R.id.web_progress_bar);
         webView = (WebView) v.findViewById(R.id.web_view);
-        webView.loadUrl("https://www.kent.ac.uk/engineering-digital-arts/");
+        webView.loadUrl("https://twitter.com/edakent");
 
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
-        webView.setWebViewClient(new WebViewClient());
+        webView.setWebViewClient(new TwitterFragment.WebViewClient());
         return v;
     }
 

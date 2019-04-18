@@ -21,6 +21,12 @@
             <item android:id="@+id/nav_website"
                 android:icon="@drawable/ic_link_black_24dp"
                 android:title="Visit EDA Website" />
+            <item android:id="@+id/nav_fb"
+                android:icon="@drawable/icons8_facebook_24"
+                android:title="Like us on Facebook" />
+            <item android:id="@+id/nav_twitter"
+                android:icon="@drawable/icons8_twitter_24"
+                android:title="Follow us on Twitter" />
         </menu>
     </item>
 
