@@ -2,6 +2,7 @@ package com.example.ksb36.contacts.network;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.util.Log;
 
 import com.example.ksb36.contacts.model.Article;
 import com.example.ksb36.contacts.model.ArticleList;
@@ -62,14 +63,17 @@ public class ArticlesRepository {
                 //data.setValue(response.body().getArticles());
                 articleList.setValue(response.body().getArticles());
 
+                if (articleList == null) {
+                    System.out.print("EMPTY!!!!!");
+                }
+
                 networkStatus.setValue(NetworkStatus.IDLE);
             }
 
             @Override
             public void onFailure(Call<ArticleList> call, Throwable t) {
+                Log.d("repo", t.getMessage());
                 networkStatus.setValue(NetworkStatus.IDLE);
-
-                t.printStackTrace();
             }
         });
 

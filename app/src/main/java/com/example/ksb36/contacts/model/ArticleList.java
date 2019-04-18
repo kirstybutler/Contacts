@@ -9,7 +9,7 @@ public class ArticleList {
     @Expose
     private Integer page;
     @Expose
-    private Integer category;
+    private String category;
     @Expose
     private List<Article> articles;
     @Expose
@@ -19,7 +19,7 @@ public class ArticleList {
     @Expose
     private Integer day;
 
-    public ArticleList(Integer page, Integer category, List<Article> articles, Integer year, Integer month, Integer day) {
+    public ArticleList(Integer page, String category, List<Article> articles, Integer year, Integer month, Integer day) {
         this.page = page;
         this.category = category;
         this.articles = articles;
@@ -36,11 +36,11 @@ public class ArticleList {
         this.page = page;
     }
 
-    public Integer getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(Integer category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 

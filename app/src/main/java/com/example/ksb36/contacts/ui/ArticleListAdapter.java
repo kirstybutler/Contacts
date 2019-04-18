@@ -7,10 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ksb36.contacts.model.Article;
 import com.example.ksb36.contacts.R;
-import com.example.ksb36.contacts.model.ArticleList;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -57,30 +57,30 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView title;
-        private TextView author;
-        private ImageView photo;
+        private TextView articleDate;
+        private ImageView articleImage;
 
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             title = (TextView) itemView.findViewById(R.id.title);
-            author = (TextView) itemView.findViewById(R.id.author);
-            photo = (ImageView) itemView.findViewById(R.id.photo);
+            articleDate = (TextView) itemView.findViewById(R.id.date);
+            articleImage = (ImageView) itemView.findViewById(R.id.photo);
         }
 
         public void setData(Article article, int position) {
             title.setText(article.getTitle());
-            author.setText(article.getAuthor());
+            articleDate.setText("Published on: " + article.getDateTime());
 
             Picasso.get()
                     .load(article.getImageURL())
-                    .resize(50,50)
+                    .resize(100,100)
                     .centerCrop()
-                    .into(photo);
+                    .into(articleImage);
+
 
             itemView.setTag(position);
-
             itemView.setOnClickListener(itemClickListener);
         }
     }

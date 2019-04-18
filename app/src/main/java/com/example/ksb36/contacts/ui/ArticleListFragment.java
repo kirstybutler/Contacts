@@ -21,7 +21,7 @@ import com.example.ksb36.contacts.network.ArticlesRepository;
 
 import java.util.List;
 
-public class ContactListFragment extends Fragment {
+public class ArticleListFragment extends Fragment {
 
     public RecyclerView contactListView;
     private LinearLayoutManager layoutManager;
@@ -29,7 +29,7 @@ public class ContactListFragment extends Fragment {
     private ArticlesViewModel viewModel;
     private ProgressBar progressBar;
 
-    public ContactListFragment() {
+    public ArticleListFragment() {
         // Required empty public constructor
     }
 
