@@ -10,9 +10,9 @@ public class Article {
     @Expose
     private String description;
     @Expose
-    private String articleURL;
+    private String articleUrl;
     @Expose
-    private String imageURL;
+    private String imageUrl;
     @Expose
     private String dateTime;
 
@@ -20,8 +20,8 @@ public class Article {
         this.title = title;
         this.author = author;
         this.description = description;
-        this.articleURL = articleURL;
-        this.imageURL = imageURL;
+        this.articleUrl = articleURL;
+        this.imageUrl = imageURL;
         this.dateTime = dateTime;
     }
 
@@ -49,18 +49,18 @@ public class Article {
         this.description = description;
     }
 
-    public String getArticleURL() {
-        return articleURL;
+    public String getArticleUrl() {
+        return articleUrl;
     }
 
-    public void setArticleURL(String articleURL) {
-        this.articleURL = articleURL;
+    public void setArticleUrl(String articleURL) {
+        this.articleUrl = articleURL;
     }
 
-    public String getImageURL() { return imageURL; }
+    public String getImageUrl() { return imageUrl; }
 
     public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
+        this.imageUrl = imageURL;
     }
 
     public String getDateTime() {

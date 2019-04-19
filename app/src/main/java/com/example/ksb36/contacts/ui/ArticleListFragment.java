@@ -10,9 +10,13 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.ksb36.contacts.model.Article;
 import com.example.ksb36.contacts.R;
@@ -21,7 +25,7 @@ import com.example.ksb36.contacts.network.ArticlesRepository;
 
 import java.util.List;
 
-public class ArticleListFragment extends Fragment {
+public class ArticleListFragment extends Fragment  {
 
     public RecyclerView contactListView;
     private LinearLayoutManager layoutManager;
@@ -31,12 +35,6 @@ public class ArticleListFragment extends Fragment {
 
     public ArticleListFragment() {
         // Required empty public constructor
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
     }
 
     @Override

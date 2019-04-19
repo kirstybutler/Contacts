@@ -21,7 +21,10 @@
                 android:id="@+id/toolbar"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                android:elevation="4dp"/>
+                android:elevation="4dp" >
+            </android.support.v7.widget.Toolbar>
+
+
 
             <FrameLayout
                 android:id="@+id/single_frag_placeholder"

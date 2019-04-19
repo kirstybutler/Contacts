@@ -1,13 +1,14 @@
 package com.example.ksb36.contacts.ui;
 
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.ksb36.contacts.model.Article;
 import com.example.ksb36.contacts.R;
@@ -36,6 +37,8 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
         return vh;
 
     }
+
+
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
@@ -73,15 +76,15 @@ public class ArticleListAdapter extends RecyclerView.Adapter<ArticleListAdapter.
             title.setText(article.getTitle());
             articleDate.setText("Published on: " + article.getDateTime());
 
-            Picasso.get()
-                    .load(article.getImageURL())
-                    .resize(100,100)
-                    .centerCrop()
-                    .into(articleImage);
-
-
             itemView.setTag(position);
             itemView.setOnClickListener(itemClickListener);
+
+            Picasso.get()
+                    .load(article.getImageUrl())
+                    .placeholder(R.drawable.ic_image_black_24dp)
+                    .resize(100, 100)
+                    .centerCrop()
+                    .into(articleImage);
         }
     }
 }

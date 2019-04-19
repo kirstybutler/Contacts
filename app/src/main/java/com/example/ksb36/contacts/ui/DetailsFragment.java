@@ -3,14 +3,19 @@ package com.example.ksb36.contacts.ui;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ksb36.contacts.model.Article;
 import com.example.ksb36.contacts.R;
@@ -28,6 +33,7 @@ public class DetailsFragment extends Fragment {
     private ImageView articleImage;
     private TextView articleTitle;
     private TextView articleAuthor;
+    private TextView articleDesc;
 
     public DetailsFragment() {
         // Required empty public constructor
@@ -40,14 +46,39 @@ public class DetailsFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_details, container, false);
 
-        articleTitle = (TextView) view.findViewById(R.id.contact_name);
-        articleAuthor = (TextView) view.findViewById(R.id.contact_phone);
+        articleTitle = (TextView) view.findViewById(R.id.title_text);
+        articleDesc = (TextView) view.findViewById(R.id.desc_content);
         articleImage = (ImageView) view.findViewById(R.id.contact_image);
+        articleAuthor = (TextView) view.findViewById(R.id.author_text);
+
 
         viewModel = ViewModelProviders.of(getActivity()).get(ArticlesViewModel.class);
         viewModel.getSelectedArticle().observe(this, selectedArticleObserver);
 
         return view;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.actionbar_items, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.action_fav:
+                Toast.makeText(getActivity(), "Favourites selected", Toast.LENGTH_SHORT).show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void updateView(int position) {
@@ -59,15 +90,15 @@ public class DetailsFragment extends Fragment {
         Article article = articlesList.get(position);
 
         articleTitle.setText(article.getTitle());
-        articleAuthor.setText(article.getAuthor());
+        articleAuthor.setText("Published by: " + article.getAuthor());
+        articleDesc.setText(article.getDescription());
 
         Picasso.get()
-                .load(article.getImageURL())
-                .resize(50,50)
+                .load(article.getImageUrl())
+                .resize(200,100)
                 .centerCrop()
                 .into(articleImage);
 
-        //contactImage.setImageResource(contact.getImageResource());
     }
 
     private final Observer<Integer> selectedArticleObserver = new Observer<Integer>() {
@@ -76,4 +107,8 @@ public class DetailsFragment extends Fragment {
             updateView(integer);
         }
     };
+
+
+
+
 }
